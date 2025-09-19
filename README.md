@@ -39,7 +39,6 @@ This project is a hands-on environment for learning and practicing MySQL databas
 
 3. Copy `.env` and set your MySQL credentials:
 
-
    ```env
    MYSQL_HOST=localhost
    MYSQL_USER=your_user
