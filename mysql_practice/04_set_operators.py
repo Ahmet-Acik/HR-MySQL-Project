@@ -1,6 +1,6 @@
 """
 Using Set Operators (UNION, INTERSECT, EXCEPT)
-- MySQL supports UNION and UNION ALL
+Best practices: UNION, UNION ALL, INTERSECT (simulated), EXCEPT (simulated)
 """
 import sys
 import os
@@ -16,14 +16,56 @@ def get_connection():
         database=DATABASE
     )
 
-if __name__ == "__main__":
+
+# UNION: Unique values from both queries
+def union_employees_departments(cursor):
+    cursor.execute('''
+        SELECT first_name AS name FROM employees
+        UNION
+        SELECT department_name AS name FROM departments;
+    ''')
+    return cursor.fetchall()
+
+# UNION ALL: All values from both queries (including duplicates)
+def union_all_employees_departments(cursor):
+    cursor.execute('''
+        SELECT first_name AS name FROM employees
+        UNION ALL
+        SELECT department_name AS name FROM departments;
+    ''')
+    return cursor.fetchall()
+
+# INTERSECT simulation: Values present in both tables
+def intersect_employees_departments(cursor):
+    cursor.execute('''
+        SELECT first_name AS name FROM employees
+        WHERE first_name IN (SELECT department_name FROM departments);
+    ''')
+    return cursor.fetchall()
+
+# EXCEPT simulation: Values in employees not in departments
+def except_employees_departments(cursor):
+    cursor.execute('''
+        SELECT first_name AS name FROM employees
+        WHERE first_name NOT IN (SELECT department_name FROM departments);
+    ''')
+    return cursor.fetchall()
+
+def print_set_operator_examples():
     with get_connection() as conn:
         cursor = conn.cursor(dictionary=True)
-        query = '''
-        SELECT first_name FROM employees
-        UNION
-        SELECT department_name FROM departments;
-        '''
-        cursor.execute(query)
-        for row in cursor.fetchall():
+        print("UNION (unique names from employees and departments):")
+        for row in union_employees_departments(cursor):
             print(row)
+        print("\nUNION ALL (all names, including duplicates):")
+        for row in union_all_employees_departments(cursor):
+            print(row)
+        print("\nINTERSECT (names present in both employees and departments):")
+        for row in intersect_employees_departments(cursor):
+            print(row)
+        print("\nEXCEPT (names in employees not in departments):")
+        for row in except_employees_departments(cursor):
+            print(row)
+
+if __name__ == "__main__":
+    print_set_operator_examples()
