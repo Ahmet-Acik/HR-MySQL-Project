@@ -2,6 +2,9 @@
 Grouping Sets and Pivoting Data
 - MySQL supports GROUPING SETS (from 8.0.18+), but not PIVOT directly
 """
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from scripts.db_config import HOST, USER, PASSWORD, DATABASE
 import mysql.connector
 

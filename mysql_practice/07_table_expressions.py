@@ -2,6 +2,9 @@
 Using Table Expressions (CTE, Derived Tables)
 - MySQL supports CTEs (WITH ...)
 """
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from scripts.db_config import HOST, USER, PASSWORD, DATABASE
 import mysql.connector
 
