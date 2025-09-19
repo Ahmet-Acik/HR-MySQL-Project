@@ -3,6 +3,9 @@ Introduction to Transact-SQL (T-SQL) with MySQL and Python
 - How to connect to MySQL
 - Basic query examples
 """
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from scripts.db_config import HOST, USER, PASSWORD, DATABASE
 import mysql.connector
 
