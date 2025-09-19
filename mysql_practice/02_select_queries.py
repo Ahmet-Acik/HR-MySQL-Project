@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from scripts.db_config import HOST, USER, PASSWORD, DATABASE
 import mysql.connector
 
+# create a connection to the MySQL database
 def get_connection():
     return mysql.connector.connect(
         host=HOST,
@@ -16,18 +17,23 @@ def get_connection():
         database=DATABASE
     )
 
+# Various SELECT query examples encapsulated in functions
+# Select all employees
 def select_all_employees(cursor):
     cursor.execute("SELECT * FROM employees;")
     return cursor.fetchall()
 
+# Select employees by department
 def select_employees_by_department(cursor, department_id):
     cursor.execute("SELECT * FROM employees WHERE department_id = %s;", (department_id,))
     return cursor.fetchall()
 
+# Select employee by ID
 def select_employee_by_id(cursor, employee_id):
     cursor.execute("SELECT * FROM employees WHERE employee_id = %s;", (employee_id,))
     return cursor.fetchone()
 
+# Select employees by job title
 def select_employees_by_job_title(cursor, job_title):
     query = (
         "SELECT e.* FROM employees e "
@@ -37,18 +43,22 @@ def select_employees_by_job_title(cursor, job_title):
     cursor.execute(query, (f"%{job_title}%",))
     return cursor.fetchall()
 
+# Select first N employees
 def select_first_n_employees(cursor, n=5):
     cursor.execute("SELECT * FROM employees LIMIT %s;", (n,))
     return cursor.fetchall()
 
+# Select employees with salary above a certain amount
 def select_employees_with_salary_above(cursor, amount):
     cursor.execute("SELECT * FROM employees WHERE salary > %s;", (amount,))
     return cursor.fetchall()
 
+# Select employee names (first and last)
 def select_employee_names(cursor):
     cursor.execute("SELECT first_name, last_name FROM employees;")
     return cursor.fetchall()
 
+# Select high paid managers (salary > 10000)
 def select_high_paid_managers(cursor):
     query = (
         "SELECT e.* FROM employees e "
@@ -58,30 +68,36 @@ def select_high_paid_managers(cursor):
     cursor.execute(query, ('%Manager%', 10000))
     return cursor.fetchall()
 
+# Select employees ordered by salary descending
 def select_employees_ordered_by_salary(cursor):
     cursor.execute("SELECT * FROM employees ORDER BY salary DESC;")
     return cursor.fetchall()
 
+# Select distinct job titles
 def select_distinct_job_titles(cursor):
     cursor.execute(
         "SELECT DISTINCT j.job_title FROM jobs j JOIN employees e ON e.job_id = j.job_id;"
     )
     return cursor.fetchall()
 
+# Select employees with email domain
 def select_employees_with_email_domain(cursor, domain):
     cursor.execute("SELECT * FROM employees WHERE email LIKE %s;", (f"%@{domain}",))
     return cursor.fetchall()
 
+# Select employee count by department
 def select_employee_count_by_department(cursor):
     cursor.execute(
         "SELECT department_id, COUNT(*) as num_employees FROM employees GROUP BY department_id;"
     )
     return cursor.fetchall()
 
+# Select employees with limit and offset
 def select_employees_with_offset(cursor, limit, offset):
     cursor.execute("SELECT * FROM employees LIMIT %s OFFSET %s;", (limit, offset))
     return cursor.fetchall()
 
+# Example usage and printing results
 def print_example_results():
     with get_connection() as conn:
         cursor = conn.cursor(dictionary=True)
