@@ -25,21 +25,28 @@ This project is a hands-on environment for learning and practicing MySQL databas
 ## Setup
 
 1. Install Python dependencies:
+
    ```sh
    pip install -r requirements.txt
    ```
+
 2. Set up your MySQL server and import the schema/data:
+
    ```sh
    mysql -u <user> -p < hr_schema.sql
    mysql -u <user> -p < hr_data.sql
    ```
+
 3. Copy `.env` and set your MySQL credentials:
+
+
    ```env
    MYSQL_HOST=localhost
    MYSQL_USER=your_user
    MYSQL_PASSWORD=your_password
    MYSQL_DATABASE=hr_db
    ```
+
 4. All scripts use `scripts/db_config.py` for secure credential loading.
 
 ## Example Scripts
@@ -66,6 +73,7 @@ Each file is a standalone Python script for a key SQL/MySQL topic:
 - `11_error_handling_transactions.py`: Error handling and transactions
 
 Run any module with:
+
 ```sh
 python mysql_practice/<module_name>.py
 ```
