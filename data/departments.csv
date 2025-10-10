@@ -1,0 +1,4 @@
+department_id,department_name,manager_id,location_id
+9,Executive,100,1700
+6,IT,103,1400
+10,Finance,108,1700
